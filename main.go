@@ -16,7 +16,6 @@ func main() {
 
 	toDoList := []task{}
 	var userChoose int
-	var task task
 
 	fmt.Println("This is to-do-list application.")
 
@@ -26,23 +25,15 @@ func main() {
 		fmt.Scan(&userChoose)
 
 		if userChoose == 1 {
-			task = addTask()
-			toDoList = append(toDoList, task)
+			addTask(&toDoList)
 		}
 
 		if userChoose == 2 {
-			var n int
-			fmt.Println("Enter number of task you want to change")
-			fmt.Scan(&n)
-			task = addTask()
-			toDoList[n-1] = task
+			updateTask(toDoList)
 		}
 
 		if userChoose == 3 {
-			var n int
-			fmt.Println("Enter number of task you want to delete")
-			fmt.Scan(&n)
-			toDoList = append(toDoList[:n-1], toDoList[n:]...)
+			deleteTask(toDoList)
 		}
 
 		if userChoose == 4 {
@@ -59,7 +50,7 @@ func main() {
 
 }
 
-func addTask() task {
+func addTask(tdl *[]task) {
 	var newTask task
 
 	fmt.Println("Enter task name")
@@ -76,7 +67,23 @@ func addTask() task {
 
 	fmt.Println("New task created")
 
-	return newTask
+	*tdl = append(*tdl, newTask)
+}
+
+func updateTask(tdl []task) {
+	var i int
+	task := []task{}
+	fmt.Println("Enter number of task you want to change")
+	fmt.Scan(&i)
+	addTask(&task)
+	tdl[i-1] = task[0]
+}
+
+func deleteTask(tdl []task) {
+	var i int
+	fmt.Println("Enter number of task you want to delete")
+	fmt.Scan(&i)
+	tdl = append(tdl[:i-1], tdl[i:]...)
 }
 
 func taskList(tdl []task) {
