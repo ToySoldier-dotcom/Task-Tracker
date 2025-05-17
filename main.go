@@ -19,11 +19,16 @@ func main() {
 		fmt.Scan(&userChoose)
 
 		if userChoose == 1 {
-			task.AddTask(toDoList)
+			task.AddTask(&toDoList)
+			id := len(toDoList)
+			toDoList[id-1].ID = id
 		}
 
 		if userChoose == 2 {
-			task.UpdateTask(toDoList)
+			task, i := task.UpdateTask()
+			oldId := toDoList[i-1].ID
+			toDoList[i-1] = task[0]
+			toDoList[i-1].ID = oldId
 		}
 
 		if userChoose == 3 {
