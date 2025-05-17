@@ -4,16 +4,18 @@ import (
 	"bufio"
 	"fmt"
 	"os"
+	"strconv"
 )
 
 type Task struct {
+	id          int
 	header      string
 	description string
 	createdAt   string
 	status      string
 }
 
-func AddTask(tdl *[]Task) {
+func AddTask(tdl []Task) {
 	var newTask Task
 	scanner := bufio.NewScanner(os.Stdin)
 
@@ -39,7 +41,10 @@ func AddTask(tdl *[]Task) {
 
 	fmt.Println("New task created")
 
-	*tdl = append(*tdl, newTask)
+	tdl = append(tdl, newTask)
+	newTask.id = len(tdl)
+	tdl[newTask.id-1].id = newTask.id
+
 }
 
 func UpdateTask(tdl []Task) {
@@ -47,19 +52,41 @@ func UpdateTask(tdl []Task) {
 	task := []Task{}
 	fmt.Println("Enter number of task you want to change")
 	fmt.Scan(&i)
-	AddTask(&task)
+	AddTask(task)
+	oldId := tdl[i-1].id
 	tdl[i-1] = task[0]
+	tdl[i-1].id = oldId
 }
 
-func DeleteTask(tdl []Task) {
-	var i int
-	fmt.Println("Enter number of task you want to delete")
-	fmt.Scan(&i)
-	tdl = append(tdl[:i-1], tdl[i:]...)
+func DeleteTask(tdl []Task) []Task {
+	scanner := bufio.NewScanner(os.Stdin)
+	fmt.Print("Enter number of task you want to delete")
+	scanner.Scan()
+	index := scanner.Text()
+
+	taskID, err := strconv.Atoi(index)
+	if err != nil {
+		fmt.Println("Invalid number of task")
+		return tdl
+	}
+
+	for i, t := range tdl {
+		if t.id == taskID {
+			return append(tdl[:i], tdl[i+1:]...)
+		}
+	}
+	fmt.Println("Task not found")
+	return tdl
 }
 
 func TaskList(tdl []Task) {
 	for _, val := range tdl {
-		fmt.Printf("%v\n", val)
+		fmt.Printf("%d. %s %s %s %s\n",
+			val.id,
+			val.header,
+			val.description,
+			val.createdAt,
+			val.status,
+		)
 	}
 }

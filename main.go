@@ -19,7 +19,7 @@ func main() {
 		fmt.Scan(&userChoose)
 
 		if userChoose == 1 {
-			task.AddTask(&toDoList)
+			task.AddTask(toDoList)
 		}
 
 		if userChoose == 2 {
@@ -32,6 +32,10 @@ func main() {
 
 		if userChoose == 4 {
 			task.TaskList(toDoList)
+		}
+
+		if userChoose == 6 {
+			fmt.Printf("Всего задач: %d\n", len(toDoList))
 		}
 
 		if userChoose == 5 {
