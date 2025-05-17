@@ -1,6 +1,10 @@
 package task
 
-import "fmt"
+import (
+	"bufio"
+	"fmt"
+	"os"
+)
 
 type Task struct {
 	header      string
@@ -11,18 +15,27 @@ type Task struct {
 
 func AddTask(tdl *[]Task) {
 	var newTask Task
+	scanner := bufio.NewScanner(os.Stdin)
+
+	for scanner.Scan() {
+		break
+	}
 
 	fmt.Println("Enter task name")
-	fmt.Scan(&newTask.header)
+	scanner.Scan()
+	newTask.header = scanner.Text()
 
 	fmt.Println("Enter task description")
-	fmt.Scan(&newTask.description)
+	scanner.Scan()
+	newTask.description = scanner.Text()
 
 	fmt.Println("Enter task date")
-	fmt.Scan(&newTask.createdAt)
+	scanner.Scan()
+	newTask.createdAt = scanner.Text()
 
 	fmt.Println("Enter task status")
-	fmt.Scan(&newTask.status)
+	scanner.Scan()
+	newTask.status = scanner.Text()
 
 	fmt.Println("New task created")
 
