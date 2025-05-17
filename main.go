@@ -3,18 +3,12 @@ package main
 import (
 	"fmt"
 	"time"
+	task "to-do-list/Tasks"
 )
-
-type task struct {
-	header      string
-	description string
-	createdAt   string
-	status      string
-}
 
 func main() {
 
-	toDoList := []task{}
+	toDoList := []task.Task{}
 	var userChoose int
 
 	fmt.Println("This is to-do-list application.")
@@ -25,19 +19,19 @@ func main() {
 		fmt.Scan(&userChoose)
 
 		if userChoose == 1 {
-			addTask(&toDoList)
+			task.AddTask(&toDoList)
 		}
 
 		if userChoose == 2 {
-			updateTask(toDoList)
+			task.UpdateTask(toDoList)
 		}
 
 		if userChoose == 3 {
-			deleteTask(toDoList)
+			task.DeleteTask(toDoList)
 		}
 
 		if userChoose == 4 {
-			taskList(toDoList)
+			task.TaskList(toDoList)
 		}
 
 		if userChoose == 5 {
@@ -48,46 +42,4 @@ func main() {
 
 	}
 
-}
-
-func addTask(tdl *[]task) {
-	var newTask task
-
-	fmt.Println("Enter task name")
-	fmt.Scan(&newTask.header)
-
-	fmt.Println("Enter task description")
-	fmt.Scan(&newTask.description)
-
-	fmt.Println("Enter task date")
-	fmt.Scan(&newTask.createdAt)
-
-	fmt.Println("Enter task status")
-	fmt.Scan(&newTask.status)
-
-	fmt.Println("New task created")
-
-	*tdl = append(*tdl, newTask)
-}
-
-func updateTask(tdl []task) {
-	var i int
-	task := []task{}
-	fmt.Println("Enter number of task you want to change")
-	fmt.Scan(&i)
-	addTask(&task)
-	tdl[i-1] = task[0]
-}
-
-func deleteTask(tdl []task) {
-	var i int
-	fmt.Println("Enter number of task you want to delete")
-	fmt.Scan(&i)
-	tdl = append(tdl[:i-1], tdl[i:]...)
-}
-
-func taskList(tdl []task) {
-	for _, val := range tdl {
-		fmt.Printf("%v\n", val)
-	}
 }
