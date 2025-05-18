@@ -15,7 +15,7 @@ func main() {
 
 	for {
 		fmt.Println("Choose function:")
-		fmt.Println("1 - Add new task\n2 - Update task\n3 - Delete task\n4 - Task list\n5 - Exit")
+		fmt.Println("1 - Add new task\n2 - Update task\n3 - Task list\n4 - Exit")
 		fmt.Scan(&userChoose)
 
 		if userChoose == 1 {
@@ -32,19 +32,15 @@ func main() {
 		}
 
 		if userChoose == 3 {
-			task.DeleteTask(toDoList)
-		}
-
-		if userChoose == 4 {
 			task.TaskList(toDoList)
 		}
 
-		if userChoose == 6 {
-			fmt.Printf("Всего задач: %d\n", len(toDoList))
+		if userChoose == 4 {
+			break
 		}
 
 		if userChoose == 5 {
-			break
+			fmt.Printf("Всего задач: %d\n", len(toDoList))
 		}
 
 		time.Sleep(1 * time.Second)

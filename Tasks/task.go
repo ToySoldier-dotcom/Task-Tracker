@@ -4,7 +4,6 @@ import (
 	"bufio"
 	"fmt"
 	"os"
-	"strconv"
 )
 
 type Task struct {
@@ -23,25 +22,66 @@ func AddTask(tdl *[]Task) {
 		break
 	}
 
-	fmt.Println("Enter task name")
+	fmt.Print("Name - ")
 	scanner.Scan()
 	newTask.header = scanner.Text()
 
-	fmt.Println("Enter task description")
+	fmt.Print("Description - ")
 	scanner.Scan()
 	newTask.description = scanner.Text()
 
-	fmt.Println("Enter task date")
-	scanner.Scan()
-	newTask.createdAt = scanner.Text()
+	ChangeDate(&newTask, scanner)
 
-	fmt.Println("Enter task status")
-	scanner.Scan()
-	newTask.status = scanner.Text()
+	ChangeStatus(&newTask, scanner)
 
 	fmt.Println("New task created")
 
 	*tdl = append(*tdl, newTask)
+}
+
+func ChangeDate(newtask *Task, scanner *bufio.Scanner) {
+	var d, m, y string
+
+	fmt.Println("Enter task date")
+
+	fmt.Print("Day - ")
+	scanner.Scan()
+	d = scanner.Text()
+
+	fmt.Print("Month - ")
+	scanner.Scan()
+	m = scanner.Text()
+
+	fmt.Print("Year - ")
+	scanner.Scan()
+	y = scanner.Text()
+
+	newtask.createdAt = d + "." + m + "." + y + "."
+}
+
+func ChangeStatus(newtask *Task, scanner *bufio.Scanner) {
+	fmt.Println("Select Status:\n1 - New Task\n2 - Task in Progress\n3 - Finished Task")
+
+	scanner.Scan()
+	choose := scanner.Text()
+
+	for {
+		if choose == "1" {
+			newtask.status = "New Task"
+			break
+		} else if choose == "2" {
+			newtask.status = "Task in Progress"
+			break
+		} else if choose == "3" {
+			newtask.status = "Finished Task"
+			break
+		} else {
+			fmt.Println("You chosed wrong number, try again")
+			fmt.Println("Select Status:\n1 - New Task\n2 - Task in Progress\n3 - Finished Task")
+			scanner.Scan()
+			choose = scanner.Text()
+		}
+	}
 }
 
 func UpdateTask() ([]Task, int) {
@@ -53,40 +93,16 @@ func UpdateTask() ([]Task, int) {
 	return task, i
 }
 
-func DeleteTask(tdl []Task) []Task {
-	scanner := bufio.NewScanner(os.Stdin)
-
-	for scanner.Scan() {
-		break
-	}
-
-	fmt.Println("Enter number of task you want to delete")
-	scanner.Scan()
-	index := scanner.Text()
-
-	taskID, err := strconv.Atoi(index)
-	if err != nil {
-		fmt.Println("Invalid number of task")
-		return tdl
-	}
-
-	for i, t := range tdl {
-		if t.ID == taskID {
-			return append(tdl[:i], tdl[i+1:]...)
-		}
-	}
-	fmt.Println("Task not found")
-	return tdl
-}
-
 func TaskList(tdl []Task) {
 	for _, val := range tdl {
-		fmt.Printf("%d. %s %s %s %s\n",
+		fmt.Println("--------------------------------------------------")
+		fmt.Printf("%d. %s\nDescription - %s\nDate - %s\nStatus - %s\n",
 			val.ID,
 			val.header,
 			val.description,
 			val.createdAt,
 			val.status,
 		)
+		fmt.Println("--------------------------------------------------")
 	}
 }
