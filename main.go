@@ -3,7 +3,7 @@ package main
 import (
 	"fmt"
 	"time"
-	task "to-do-list/Tasks"
+	task "to-do-list-mod/Tasks"
 )
 
 func main() {
@@ -18,28 +18,21 @@ func main() {
 		fmt.Println("1 - Add new task\n2 - Update task\n3 - Task list\n4 - Exit")
 		fmt.Scan(&userChoose)
 
-		if userChoose == 1 {
+		switch {
+		case userChoose == 1:
 			task.AddTask(&toDoList)
 			id := len(toDoList)
 			toDoList[id-1].ID = id
-		}
-
-		if userChoose == 2 {
-			task, i := task.UpdateTask()
+		case userChoose == 2:
+			task, i := task.UpdateTask(toDoList)
 			oldId := toDoList[i-1].ID
 			toDoList[i-1] = task[0]
 			toDoList[i-1].ID = oldId
-		}
-
-		if userChoose == 3 {
+		case userChoose == 3:
 			task.TaskList(toDoList)
-		}
-
-		if userChoose == 4 {
-			break
-		}
-
-		if userChoose == 5 {
+		case userChoose == 4:
+			return
+		case userChoose == 5:
 			fmt.Printf("Всего задач: %d\n", len(toDoList))
 		}
 

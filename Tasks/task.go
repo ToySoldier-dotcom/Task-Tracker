@@ -84,11 +84,20 @@ func ChangeStatus(newtask *Task, scanner *bufio.Scanner) {
 	}
 }
 
-func UpdateTask() ([]Task, int) {
+func UpdateTask(tdl []Task) ([]Task, int) {
 	var i int
 	task := []Task{}
-	fmt.Println("Enter number of task you want to change")
-	fmt.Scan(&i)
+
+	for {
+		fmt.Println("Enter number of task you want to change")
+		fmt.Scan(&i)
+		if i >= 0 && i <= len(tdl) {
+			break
+		} else {
+			fmt.Println("This task does not exist. Try again")
+		}
+	}
+
 	AddTask(&task)
 	return task, i
 }
